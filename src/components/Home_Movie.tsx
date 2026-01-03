@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import { MoviesContext } from "./MoviesContext";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 export const HomeMovie = () => {
-  const { movies } = useContext(MoviesContext);
+  const { movies, nextPage, prevPage, } = useContext(MoviesContext);
 
   return (
     <>
-      <h2 className=" mb-2 font-bold">Populares</h2>
-      <section className=" p-2 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl">
+      <h2 className="ml-6 my-4 text-2xl font-bold">Populares</h2>
+      <section className="mx-6 p-2 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl relative">
         {movies.map((movie) => (
           <article key={movie.id}>
             <img
@@ -18,6 +19,20 @@ export const HomeMovie = () => {
             />
           </article>
         ))}
+        <button
+          onClick={prevPage}
+          className=" absolute bg-transparent left-3 top-1/2 rounded-full text-white transition-transform duration-500 
+                      hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
+        >
+          <GrPrevious />
+        </button>
+        <button
+          onClick={nextPage}
+          className=" absolute bg-transparent right-3 top-1/2 rounded-full text-white transition-transform duration-500 
+                      hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
+        >
+          <GrNext />
+        </button>
       </section>
     </>
   );

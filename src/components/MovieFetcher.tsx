@@ -6,6 +6,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
   const [upComingMovie, setUpComingMovie] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   const options = {
     method: "GET",
@@ -14,10 +15,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       Authorization: API_TOKEN,
     },
   };
-  const fetchMovie = async () => {
+  const fetchMovie = async (page: number) => {
     try {
       const resPopulary = await fetch(
-        "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
+        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`,
         options
       );
 
@@ -29,7 +30,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       setMovies(dataPopulary.results.slice(0, 12));
 
       const resUpComing = await fetch(
-        "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
+        `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${page}`,
         options
       );
 
@@ -38,7 +39,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       }
 
       const dataUpComing = await resUpComing.json();
-      setUpComingMovie(dataUpComing.results.slice(0, 12));
+      setUpComingMovie(dataUpComing.results);
       console.log("🚀 ~ fetchMovie ~ results:", dataUpComing.results);
     } catch (error) {
       console.log("Error al traer pelicula", error);
@@ -48,12 +49,45 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchMovie();
-  }, []);
+    fetchMovie(page);
+  }, [page]);
 
+  const nextPage = () => setPage((prev) => prev + 1);
+  const prevPage = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
+
+  const searchMovies = async (query: string) => {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/search/movie?query=${query}&language=en-US&page=1&include_adult=false`,
+        options
+      );
+
+      if (!res.ok) {
+        throw new Error("Error al traer peticion");
+      }
+      const data = await res.json();
+      return data.results;
+    } catch (error) {
+      console.log("Error al traer pelicula", error);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <>
-      <MoviesContext.Provider value={{ movies, upComingMovie, loading }}>
+      <MoviesContext.Provider
+        value={{
+          movies,
+          page,
+          nextPage,
+          prevPage,
+          upComingMovie,
+          loading,
+          searchMovies,
+        }}
+      >
         {children}
       </MoviesContext.Provider>
     </>
