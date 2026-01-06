@@ -16,6 +16,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     },
   };
   const fetchMovie = async (page: number) => {
+    setLoading(true);
     try {
       const resPopulary = await fetch(
         `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`,
@@ -56,6 +57,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const prevPage = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
 
   const searchMovies = async (query: string) => {
+    setLoading(true);
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?query=${query}&language=en-US&page=1&include_adult=false`,
@@ -81,6 +83,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
         value={{
           movies,
           page,
+          setPage,
           nextPage,
           prevPage,
           upComingMovie,
