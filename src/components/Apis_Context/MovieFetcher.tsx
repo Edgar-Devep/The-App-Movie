@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { API_TOKEN } from "./Secret";
-import { MoviesContext, type TypeMovieFetcher } from "./MoviesContext";
+import { MoviesContext, type TypeMovieFetcher } from "../Types/TypesMovies";
 
 export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
   const [upComingMovie, setUpComingMovie] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [pageUpComing, setPageUpComing] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const options = {
     method: "GET",
@@ -15,7 +16,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       Authorization: API_TOKEN,
     },
   };
-  const fetchMovie = async (page: number) => {
+  const fetchMovie = async (page: number, pageUpComing: number) => {
     setLoading(true);
     try {
       const resPopulary = await fetch(
@@ -31,7 +32,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       setMovies(dataPopulary.results.slice(0, 12));
 
       const resUpComing = await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${page}`,
+        `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${pageUpComing}`,
         options
       );
 
@@ -50,11 +51,15 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchMovie(page);
-  }, [page]);
+    fetchMovie(page, pageUpComing);
+  }, [page, pageUpComing]);
 
   const nextPage = () => setPage((prev) => prev + 1);
   const prevPage = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
+
+  const prevPageUpComing = () =>
+    setPageUpComing((prev) => (prev > 1 ? prev - 1 : prev));
+  const nextPageUpComing = () => setPageUpComing((prev) => prev + 1);
 
   const searchMovies = async (query: string) => {
     setLoading(true);
@@ -76,19 +81,23 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <MoviesContext.Provider
         value={{
           movies,
+          upComingMovie,
+          searchMovies,
           page,
           setPage,
+          pageUpComing,
+          setPageUpComing,
           nextPage,
           prevPage,
-          upComingMovie,
+          prevPageUpComing,
+          nextPageUpComing,
           loading,
-          searchMovies,
         }}
       >
         {children}

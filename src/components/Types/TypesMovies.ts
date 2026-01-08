@@ -9,23 +9,31 @@ export type TypeMovieFetcher = {
 export type TypeMoviesContext = {
   movies: TypeMovieFetcher[];
   upComingMovie: TypeMovieFetcher[];
-  loading: boolean;
+  searchMovies: (query: string) => Promise<TypeMovieFetcher[]>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  pageUpComing: number;
+  setPageUpComing: React.Dispatch<React.SetStateAction<number>>;
   nextPage: MouseEventHandler<HTMLButtonElement>;
   prevPage: MouseEventHandler<HTMLButtonElement>;
-  searchMovies: (query: string) => Promise<TypeMovieFetcher[]>;
+  prevPageUpComing: MouseEventHandler<HTMLButtonElement>;
+  nextPageUpComing: MouseEventHandler<HTMLButtonElement>;
+  loading: boolean;
 };
 
 export const MoviesContext = createContext<TypeMoviesContext>({
   movies: [],
   upComingMovie: [],
-  loading: true,
+  searchMovies: async () => [],
   page: 1,
   setPage: () => {},
+  pageUpComing: 1,
+  setPageUpComing: () => {},
   nextPage: () => {},
   prevPage: () => {},
-  searchMovies: async () => [],
+  prevPageUpComing: () => {},
+  nextPageUpComing: () => {},
+  loading: true,
 });
 
 export type DotsPaginaProps = {

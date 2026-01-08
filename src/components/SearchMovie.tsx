@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RiUserSearchLine } from "react-icons/ri";
-import { MoviesContext, type TypeMovieFetcher } from "./MoviesContext";
+import { MoviesContext, type TypeMovieFetcher } from "./Types/TypesMovies";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { Spinner } from "./Loading";
-import { DotsPages } from "./DotsPages";
+import { Spinner } from "./UI/Loading";
+import { DotsPages } from "./UI/DotsPages";
 
 export const SearchMovie = () => {
   const { movies, nextPage, prevPage, page, setPage, searchMovies, loading } =
@@ -11,10 +11,10 @@ export const SearchMovie = () => {
   const [listMovies, setListMovies] = useState("");
   const [searchResults, setSearchResults] = useState<TypeMovieFetcher[]>([]);
 
-  const totalPages = 10;
+  const totalPages = 2;
 
   useEffect(() => {
-    setPage(0);
+    setPage(1);
   }, [setPage]);
 
   const bestMovie = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,9 +50,9 @@ export const SearchMovie = () => {
             onChange={bestMovie}
             type="search"
             id="search"
-            placeholder="Movies..."
+            placeholder="Encuentra péliculas, series y más"
             autoComplete="off"
-            className=" outline-none pr-4 w-44"
+            className=" outline-none pr-4 w-44 placeholder:text-base"
           />
         </form>
       </div>
@@ -72,14 +72,14 @@ export const SearchMovie = () => {
           ))}
           <button
             onClick={prevPage}
-            className=" absolute bg-transparent left-3 top-1/2 rounded-full text-white transition-transform duration-500 
+            className=" absolute bg-indigo-400 ransparent left-3 top-1/2 rounded-full text-white transition-transform duration-500 
              hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
           >
             <GrPrevious />
           </button>
           <button
             onClick={nextPage}
-            className=" absolute bg-transparent right-3 top-1/2 rounded-full text-white transition-transform duration-500 
+            className=" absolute bg-indigo-400 right-3 top-1/2 rounded-full text-white transition-transform duration-500 
              hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
           >
             <GrNext />

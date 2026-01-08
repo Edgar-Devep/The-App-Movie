@@ -1,4 +1,4 @@
-import type { DotsPaginaProps } from "./MoviesContext";
+import type { DotsPaginaProps } from "../Types/TypesMovies";
 
 export const DotsPages = ({ totalPages, currentPage }: DotsPaginaProps) => (
   <div className="flex justify-center mt-4 mx-8 space-x-3">
