@@ -1,25 +1,35 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { ComingSoon } from "./components/Coming_Soon";
-import { Footer } from "./components/UI/Footer";
+import { Footer } from "./UI/Footer";
 import { HomeMovie } from "./components/Home_Movie";
-import { UITabBar } from "./components/UI/TabBar";
+import { UITabBar } from "./UI/TabBar";
 import { SearchMovie } from "./components/SearchMovie";
-import type React from "react";
+import { PosterPathPrincipal } from "./components/Poster_Path_Principal";
+import { NotFound } from "./UI/NotFound";
+import { LogoMovie } from "./UI/LogoMovie";
 
-function Layout({ children }: { children: React.ReactNode }) {
+function Layout() {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
-    <div className="w-full min-h-screen pt-6 mb-8 bg-linear-to-b from-primary-700 via-primary-slow-800 to-secondary">
-        <div className=" flex justify-center items-center drop-shadow-[3px_7px_6px_#4E38F3]">
-      <Link to={"/"} className=" inline-flex items-center gap-2">
-          <p className=" text-2xl md:text-5xl font-bold">The Movie</p>
-          <img
-            className="bg-transparent w-24 h-auto md:w-48"
-            src="/logo_movie.png"
-            alt="Logo de Peliculas"
-          />
-      </Link>
+    <div className="w-full min-h-screen bg-linear-to-b from-secondary via-primary-slow-800 to-secondary">
+      {isHomePage ? (
+        <div className="relative">
+          <PosterPathPrincipal />
+          <LogoMovie overlay />
         </div>
-      {children}
+      ) : (
+        <LogoMovie />
+      )}
+
+      <Outlet />
       <UITabBar />
       <Footer />
     </div>
@@ -31,25 +41,20 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Layout>
-                  <HomeMovie />
-                  <ComingSoon />
-                </Layout>
-              </>
-            }
-          />
-          <Route
-            path="/search"
-            element={
-              <Layout>
-                <SearchMovie />
-              </Layout>
-            }
-          />
+          <Route path="/" element={<Layout />}>
+            <Route
+              index
+              element={
+                <>
+                  <HomeMovie /> <ComingSoon />
+                </>
+              }
+            />
+            <Route path="search" element={<SearchMovie />} />
+            <Route path="/Populares" element={<HomeMovie />} />
+            <Route path="/Proximamente" element={<ComingSoon />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

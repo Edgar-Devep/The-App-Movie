@@ -4,12 +4,17 @@ export type TypeMovieFetcher = {
   id: number;
   title: string;
   poster_path: string;
+  backdrop_path: string;
+  overview: string;
+  release_date: string;
+  popularity: number;
 };
 
 export type TypeMoviesContext = {
   movies: TypeMovieFetcher[];
   upComingMovie: TypeMovieFetcher[];
   searchMovies: (query: string) => Promise<TypeMovieFetcher[]>;
+  PosterPrincipalTop: () => Promise<TypeMovieFetcher[]>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   pageUpComing: number;
@@ -25,6 +30,7 @@ export const MoviesContext = createContext<TypeMoviesContext>({
   movies: [],
   upComingMovie: [],
   searchMovies: async () => [],
+  PosterPrincipalTop: async () => [],
   page: 1,
   setPage: () => {},
   pageUpComing: 1,
@@ -39,4 +45,10 @@ export const MoviesContext = createContext<TypeMoviesContext>({
 export type DotsPaginaProps = {
   totalPages: number;
   currentPage: number;
+};
+
+export type ButtonAndMenuFavorite = {
+  movieId: number;
+  openId: number | null;
+  setOpenId: (id: number | null) => void;
 };

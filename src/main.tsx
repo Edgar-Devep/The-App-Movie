@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { MovieFetcher } from "./components/Apis_Context/MovieFetcher.tsx";
+import { MovieFetcher } from "./Apis_Context/MovieFetcher.tsx";
 import App from "./App.tsx";
 import "./index.css";
 

@@ -1,18 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { MoviesContext } from "./Types/TypesMovies";
-import { GrNext, GrPrevious } from "react-icons/gr";
-import { CiMenuKebab } from "react-icons/ci";
-import { MdFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { Spinner } from "./UI/Loading";
-import { DotsPages } from "./UI/DotsPages";
+import { MoviesContext } from "../Types/TypesMovies";
+import { SkeletonHme } from "../UI/Loading";
+import { DotsPages } from "../UI/DotsPages";
+import { ButtonPrevAndNext } from "../UI/Button_Prev_Next";
+import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
+import { Link } from "react-router-dom";
 
 export const HomeMovie = () => {
   const [openId, setOpenId] = useState<number | null>(null);
   const { movies, nextPage, prevPage, loading, page, setPage } =
     useContext(MoviesContext);
 
-  const totalPages = 10;
+  const totalPages = 6;
 
   useEffect(() => {
     setPage(1);
@@ -20,69 +19,44 @@ export const HomeMovie = () => {
 
   return (
     <>
-      <h2 className="ml-6 my-4 text-2xl font-bold drop-shadow-[3px_7px_6px_#4E38F3]">
-        Populares
-      </h2>
+      <Link to={"/Populares"}>
+        <h2 className=" inline-flex ml-6 my-4 text-2xl font-bold drop-shadow-[3px_7px_6px_#4E38F3] md:text-3xl hover:text-indigo-500 hover:drop-shadow-[3px_7px_6px_#FFF]">
+          Populares
+        </h2>
+      </Link>
       {loading ? (
-        <Spinner loading={loading} />
+        <SkeletonHme loading={loading} col={true} />
       ) : (
-        <section className="mx-6 p-2 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl relative">
-          {movies.map((movie) => (
-            <article key={movie.id} className="relative">
-              <div className=" relative">
-                <img
-                  className=" rounded-2xl"
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  title={movie.title}
-                />
-                <button
-                  className="absolute top-2 right-2 bg-black/50 rounded-full"
-                  onClick={() =>
-                    setOpenId(openId === movie.id ? null : movie.id)
-                  }
-                >
-                  <CiMenuKebab className="text-white" />
-                </button>
-              </div>
-              {openId === movie.id && (
-                <div className="flex flex-col absolute top-7 right-1 bg-black/80 shadow-lg rounded-md p-2 w-12 z-10">
-                  <button
-                    onClick={() => setOpenId(null)}
-                    className="flex items-center px-2 py-1 hover:bg-red-200 rounded cursor-pointer"
-                    title="Favoritos"
-                  >
-                    <MdFavoriteBorder className="text-red-700" />
-                  </button>
-                  <button
-                    onClick={() => setOpenId(null)}
-                    className="flex items-center px-2 py-1 hover:bg-yellow-200 rounded cursor-pointer"
-                    title="Información"
-                  >
-                    <IoMdInformationCircleOutline className="text-yellow-700" />
-                  </button>
+        <div className="mx-6 relative">
+          <section className="h-full relative p-2 flex flex-row gap-3 border-2 border-indigo-600 rounded-2xl overflow-x-auto ">
+            {movies.map((movie) => (
+              <article key={movie.id} className=" md:h-80 shrink-0 relative">
+                <div className=" relative">
+                  <img
+                    className=" h-32 md:h-80 rounded-2xl"
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    title={movie.title}
+                  />
+                  <ButtonMenu
+                    movieId={movie.id}
+                    openId={openId}
+                    setOpenId={setOpenId}
+                  />
                 </div>
-              )}
-            </article>
-          ))}
+                <FavoriteInfo
+                  movieId={movie.id}
+                  openId={openId}
+                  setOpenId={setOpenId}
+                />
+              </article>
+            ))}
 
-          <button
-            onClick={prevPage}
-            className=" absolute bg-indigo-400 left-3 top-1/2 rounded-full text-white transition-transform duration-500 
-                      hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
-          >
-            <GrPrevious />
-          </button>
-          <button
-            onClick={nextPage}
-            className=" absolute bg-indigo-400 right-3 top-1/2 rounded-full text-white transition-transform duration-500 
-                      hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
-          >
-            <GrNext />
-          </button>
-        </section>
+          </section>
+            <ButtonPrevAndNext prevPage={prevPage} nextPage={nextPage} />
+          <DotsPages totalPages={totalPages} currentPage={page} />
+        </div>
       )}
-      <DotsPages totalPages={totalPages} currentPage={page} />
     </>
   );
 };

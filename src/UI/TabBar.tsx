@@ -8,7 +8,7 @@ export const UITabBar = () => {
 
   return (
     <>
-      <section className=" flex items-center justify-around w-full h-10 bg-indigo-400 fixed bottom-0 left-0 border-2 border-t-indigo-600 rounded-t-md">
+      <section className="md:hidden flex items-center justify-around w-full h-10 bg-indigo-400 fixed bottom-0 left-0 border-2 border-t-indigo-600 rounded-t-md">
         <div
           className="flex flex-col items-center cursor-pointer"
           onClick={() => navigate("/")}

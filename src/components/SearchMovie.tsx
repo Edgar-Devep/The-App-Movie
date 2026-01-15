@@ -1,21 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { RiUserSearchLine } from "react-icons/ri";
-import { MoviesContext, type TypeMovieFetcher } from "./Types/TypesMovies";
-import { GrNext, GrPrevious } from "react-icons/gr";
-import { Spinner } from "./UI/Loading";
-import { DotsPages } from "./UI/DotsPages";
+import { MoviesContext, type TypeMovieFetcher } from "../Types/TypesMovies";
+import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
+import { SkeletonHme } from "../UI/Loading";
 
 export const SearchMovie = () => {
-  const { movies, nextPage, prevPage, page, setPage, searchMovies, loading } =
-    useContext(MoviesContext);
   const [listMovies, setListMovies] = useState("");
   const [searchResults, setSearchResults] = useState<TypeMovieFetcher[]>([]);
+  const [openId, setOpenId] = useState<number | null>(null);
 
-  const totalPages = 2;
-
-  useEffect(() => {
-    setPage(1);
-  }, [setPage]);
+  const { movies, searchMovies, loading } = useContext(MoviesContext);
 
   const bestMovie = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -37,12 +31,12 @@ export const SearchMovie = () => {
 
   return (
     <>
-      <div className="flex justify-center p-6">
+      <div className="flex justify-center px-6 py-8">
         <form
           onSubmit={handleSubmit}
-          className="flex justify-center items-center w-56 h-12 p-6 bg-indigo-400 rounded-lg"
+          className="flex justify-center items-center w-full h-12 md:w-90 p-6 bg-indigo-400 rounded-lg"
         >
-          <button type="submit" className="px-2">
+          <button type="submit" className="pr-2">
             <RiUserSearchLine />
           </button>
           <input
@@ -52,41 +46,38 @@ export const SearchMovie = () => {
             id="search"
             placeholder="Encuentra péliculas, series y más"
             autoComplete="off"
-            className=" outline-none pr-4 w-44 placeholder:text-base"
+            className=" outline-none w-full md:w-72 placeholder:text-sm"
           />
         </form>
       </div>
       {loading ? (
-        <Spinner loading={loading} />
+        <SkeletonHme loading={loading} col={true}/>
       ) : (
         <section className="mx-6 p-2 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl relative">
           {filterMovies.map((movie) => (
-            <article key={movie.id}>
-              <img
-                className=" rounded-2xl"
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                title={movie.title}
+            <article key={movie.id} className="relative">
+              <div className=" relative">
+                <img
+                  className=" rounded-2xl"
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  title={movie.title}
+                />
+                <ButtonMenu
+                  movieId={movie.id}
+                  openId={openId}
+                  setOpenId={setOpenId}
+                />
+              </div>
+              <FavoriteInfo
+                movieId={movie.id}
+                openId={openId}
+                setOpenId={setOpenId}
               />
             </article>
           ))}
-          <button
-            onClick={prevPage}
-            className=" absolute bg-indigo-400 ransparent left-3 top-1/2 rounded-full text-white transition-transform duration-500 
-             hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
-          >
-            <GrPrevious />
-          </button>
-          <button
-            onClick={nextPage}
-            className=" absolute bg-indigo-400 right-3 top-1/2 rounded-full text-white transition-transform duration-500 
-             hover:scale-125 hover:font-bold hover:border border-transparent hover:border-indigo-400"
-          >
-            <GrNext />
-          </button>
         </section>
       )}
-      <DotsPages totalPages={totalPages} currentPage={page} />
     </>
   );
 };

@@ -29,7 +29,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       }
 
       const dataPopulary = await resPopulary.json();
-      setMovies(dataPopulary.results.slice(0, 12));
+      setMovies(dataPopulary.results);
 
       const resUpComing = await fetch(
         `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${pageUpComing}`,
@@ -42,11 +42,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
 
       const dataUpComing = await resUpComing.json();
       setUpComingMovie(dataUpComing.results);
-      console.log("🚀 ~ fetchMovie ~ results:", dataUpComing.results);
     } catch (error) {
       console.log("Error al traer pelicula", error);
     } finally {
-      setLoading(false);
+     setLoading(false);
     }
   };
 
@@ -82,6 +81,27 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const PosterPrincipalTop = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
+        options
+      );
+
+      if (!res.ok) {
+        throw new Error("Error al traer peticion");
+      }
+
+      const data = await res.json();
+      return data.results;
+    } catch (error) {
+      console.log("Error al traer pelicula", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <MoviesContext.Provider
@@ -89,6 +109,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
           movies,
           upComingMovie,
           searchMovies,
+          PosterPrincipalTop,
           page,
           setPage,
           pageUpComing,
