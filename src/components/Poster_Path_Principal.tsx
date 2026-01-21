@@ -39,23 +39,25 @@ export const PosterPathPrincipal = () => {
                   />
                   <ButtonPrevAndNext prevPage={prevPage} nextPage={nextPage} />
 
-                  <div className="absolute bottom-0 left-0 w-full h-20 px-4 mb-2 bg-black/60 text-white">
-                    <h2 className=" line-clamp-1 text-sm font-bold">
+                  <div className="absolute bottom-0 left-0 w-full h-auto p-2 bg-black/60 text-white">
+                    <h2 className=" line-clamp-1 text-sm font-bold md:text-lg">
                       {movie.title}
                     </h2>
                     <div className="flex flex-col">
-                      <span className="text-xs">
+                      <span className="text-xs md:text-sm">
                         ⭐ {movie.popularity.toFixed(1)}
                       </span>
                       <span className="text-xs">{movie.release_date}</span>
                     </div>
-                    <p className=" line-clamp-2 text-xs">{movie.overview}</p>
+                    <p className=" line-clamp-2 text-xs md:line-clamp-3 md:text-md">
+                      {movie.overview}
+                    </p>
                   </div>
                 </article>
               );
             })}
           </section>
-            <DotsPages totalPages={totalPages} currentPage={page} />
+          <DotsPages totalPages={totalPages} currentPage={page} />
         </>
       )}
     </>

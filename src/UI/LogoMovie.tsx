@@ -5,16 +5,19 @@ export const LogoMovie = ({ overlay = false }: { overlay?: boolean }) => {
     <div
       className={
         overlay
-          ? "absolute top-0 flex justify-center items-center md:items-start md:flex-col drop-shadow-[3px_7px_6px_#fff]"
-          : "flex justify-center items-center md:items-start md:flex-col drop-shadow-[3px_7px_6px_#fff]"
+          ? "absolute top-0 z-50 flex justify-center items-center drop-shadow-[3px_7px_6px_#fff]"
+          : "relative flex justify-start items-center z-40 drop-shadow-[3px_7px_6px_#fff] pointer-events-none"
       }
     >
-      <Link to={"/"} className="pl-3 pt-1 inline-flex items-center gap-2">
-        <p className="text-indigo-500 text-base font-bold md:text-5xl md:pl-3 md:pt-2">
+      <Link
+        to={"/"}
+        className="pl-3 pt-1 inline-flex items-center gap-2 md:gap-0 pointer-events-auto md:items-center md:flex-col"
+      >
+        <p className="text-indigo-500 text-base font-bold md:text-sm">
           The Movie
         </p>
         <img
-          className="bg-transparent w-10 h-auto md:w-34"
+          className="bg-transparent w-10 h-auto md:w-8"
           src="/logo_movie.png"
           alt="Logo de Peliculas"
         />

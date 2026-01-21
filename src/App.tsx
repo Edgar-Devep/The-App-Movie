@@ -13,6 +13,8 @@ import { SearchMovie } from "./components/SearchMovie";
 import { PosterPathPrincipal } from "./components/Poster_Path_Principal";
 import { NotFound } from "./UI/NotFound";
 import { LogoMovie } from "./UI/LogoMovie";
+import { Nav } from "./UI/Nav";
+import { CategoryMovies } from "./components/Category_Movie";
 
 function Layout() {
   const location = useLocation();
@@ -24,9 +26,13 @@ function Layout() {
         <div className="relative">
           <PosterPathPrincipal />
           <LogoMovie overlay />
+          <Nav />
         </div>
       ) : (
-        <LogoMovie />
+        <>
+          <LogoMovie />
+          <Nav />
+        </>
       )}
 
       <Outlet />
@@ -46,13 +52,14 @@ function App() {
               index
               element={
                 <>
-                  <HomeMovie /> <ComingSoon />
+                  <HomeMovie /> <ComingSoon /> <CategoryMovies />
                 </>
               }
             />
             <Route path="search" element={<SearchMovie />} />
-            <Route path="/Populares" element={<HomeMovie />} />
-            <Route path="/Proximamente" element={<ComingSoon />} />
+            <Route path="/trending" element={<HomeMovie />} />
+            <Route path="/coming-soon" element={<ComingSoon />} />
+            <Route path="/categories/:id" element={<CategoryMovies />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

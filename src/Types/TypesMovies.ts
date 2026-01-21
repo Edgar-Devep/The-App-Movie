@@ -1,20 +1,32 @@
 import React, { createContext, type MouseEventHandler } from "react";
 
-export type TypeMovieFetcher = {
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  overview: string;
-  release_date: string;
-  popularity: number;
-};
+export const MoviesContext = createContext<TypeMoviesContext>({
+  movies: [],
+  upComingMovie: [],
+  categoryId: [],
+  searchMovies: async () => [],
+  PosterPrincipalTop: async () => [],
+  categoriesHome: async () => [],
+  categoriesForId: async () => [],
+  page: 1,
+  setPage: () => {},
+  pageUpComing: 1,
+  setPageUpComing: () => {},
+  nextPage: () => {},
+  prevPage: () => {},
+  prevPageUpComing: () => {},
+  nextPageUpComing: () => {},
+  loading: true,
+});
 
 export type TypeMoviesContext = {
   movies: TypeMovieFetcher[];
   upComingMovie: TypeMovieFetcher[];
+  categoryId: TypeMovieFetcher[];
   searchMovies: (query: string) => Promise<TypeMovieFetcher[]>;
   PosterPrincipalTop: () => Promise<TypeMovieFetcher[]>;
+  categoriesHome: () => Promise<TypeMovieFetcher[]>;
+  categoriesForId: (id:number ) => Promise<TypeMovieFetcher[]>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   pageUpComing: number;
@@ -26,21 +38,16 @@ export type TypeMoviesContext = {
   loading: boolean;
 };
 
-export const MoviesContext = createContext<TypeMoviesContext>({
-  movies: [],
-  upComingMovie: [],
-  searchMovies: async () => [],
-  PosterPrincipalTop: async () => [],
-  page: 1,
-  setPage: () => {},
-  pageUpComing: 1,
-  setPageUpComing: () => {},
-  nextPage: () => {},
-  prevPage: () => {},
-  prevPageUpComing: () => {},
-  nextPageUpComing: () => {},
-  loading: true,
-});
+export type TypeMovieFetcher = {
+  id: number;
+  title: string;
+  name: string;
+  poster_path: string;
+  backdrop_path: string;
+  overview: string;
+  release_date: string;
+  popularity: number;
+};
 
 export type DotsPaginaProps = {
   totalPages: number;
