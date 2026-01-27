@@ -1,26 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RiUserSearchLine } from "react-icons/ri";
 import { MoviesContext, type TypeMovieFetcher } from "../Types/TypesMovies";
 import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
 import { SkeletonHme } from "../UI/Loading";
 
 export const SearchMovie = () => {
-  const [listMovies, setListMovies] = useState("");
-  const [searchResults, setSearchResults] = useState<TypeMovieFetcher[]>([]);
   const [openId, setOpenId] = useState<number | null>(null);
+  const [listMovies, setListMovies] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [page] = useState(1);
+  const [searchResults, setSearchResults] = useState<TypeMovieFetcher[]>([]);
+  const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
 
-  const { movies, searchMovies, loading } = useContext(MoviesContext);
+  const { searchMovies, trendingMovieHome } = useContext(MoviesContext);
 
   const bestMovie = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
+
     const value = event.target.value;
     setListMovies(value);
     if (value.length > 2) {
       const results = await searchMovies(value);
       setSearchResults(results);
+      setLoading(false);
     } else {
       setSearchResults([]);
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const search = async () => {
+      setLoading(true);
+      const respuesta = await trendingMovieHome(page);
+      setMovies(respuesta);
+      setLoading(false);
+    };
+    search();
+  }, [page]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +68,7 @@ export const SearchMovie = () => {
         </form>
       </div>
       {loading ? (
-        <SkeletonHme loading={loading} col={true}/>
+        <SkeletonHme loading={loading} col={true} />
       ) : (
         <section className="mx-6 p-2 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl relative">
           {filterMovies.map((movie) => (

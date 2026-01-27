@@ -3,20 +3,26 @@ import { Skeleton } from "antd";
 export const SkeletonHme = ({
   loading,
   col = false,
+  pages = false,
 }: {
   loading: boolean;
   col?: boolean;
+  pages?: boolean;
 }) => (
   <div
     className={
       col
-        ? "grid grid-cols-3 gap-3 border-2 border-indigo-500 p-2 m-10 bg-transparent rounded-lg animate-pulse"
+        ? pages
+          ? "h-full relative p-2 mx-6 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl animate-pulse"
+          : "h-full relative p-2 mx-6 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl animate-pulse"
         : "grid grid-cols-1 gap-3 border-2 border-indigo-500 p-2 bg-transparent rounded-lg animate-pulse "
     }
   >
-    {Array.from(col ? { length: 3} : { length:1}).map((_, i) => (
+    {Array.from(
+      col ? (pages ? { length: 12 } : { length: 4 }) : { length: 1 },
+    ).map((_, i) => (
       <Skeleton
-        className="border-2 border-indigo-500 p-2 rounded-md"
+        className="w-2xl border-2 border-indigo-500 p-2 rounded-2xl"
         key={i}
         loading={loading}
       />

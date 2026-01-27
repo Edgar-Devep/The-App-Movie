@@ -6,15 +6,22 @@ import { SkeletonHme } from "../UI/Loading";
 
 export const PosterPathPrincipal = () => {
   const [topMovie, setTopMovie] = useState<TypeMovieFetcher[]>([]);
-  const { PosterPrincipalTop, nextPage, prevPage, page, loading } =
-    useContext(MoviesContext);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  const { posterPrincipalTop } = useContext(MoviesContext);
 
   const totalPages = 6;
 
+  const nextPage = () => setPage((prev) => prev + 1);
+  const prevPage = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
+
   useEffect(() => {
     const poster = async () => {
-      const results = await PosterPrincipalTop();
-      setTopMovie(results.slice(6, 12));
+      setLoading(true);
+      const results = await posterPrincipalTop();
+      setTopMovie(results.slice(12, 18));
+      setLoading(false);
     };
     poster();
   }, []);

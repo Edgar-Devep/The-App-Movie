@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { ComingSoon } from "./components/Coming_Soon";
 import { Footer } from "./UI/Footer";
-import { HomeMovie } from "./components/Home_Movie";
+import { TrendingMovie } from "./components/Trending_Movie";
 import { UITabBar } from "./UI/TabBar";
 import { SearchMovie } from "./components/SearchMovie";
 import { PosterPathPrincipal } from "./components/Poster_Path_Principal";
@@ -15,6 +15,8 @@ import { NotFound } from "./UI/NotFound";
 import { LogoMovie } from "./UI/LogoMovie";
 import { Nav } from "./UI/Nav";
 import { CategoryMovies } from "./components/Category_Movie";
+import { Popular } from "./components/Popular";
+import { CategoryForMovie } from "./components/Category_For_Movie";
 
 function Layout() {
   const location = useLocation();
@@ -52,14 +54,15 @@ function App() {
               index
               element={
                 <>
-                  <HomeMovie /> <ComingSoon /> <CategoryMovies />
+                  <TrendingMovie /> <ComingSoon /> <Popular />  <CategoryMovies />
                 </>
               }
             />
-            <Route path="search" element={<SearchMovie />} />
-            <Route path="/trending" element={<HomeMovie />} />
+            <Route path="/trending" element={<TrendingMovie />} />
             <Route path="/coming-soon" element={<ComingSoon />} />
-            <Route path="/categories/:id" element={<CategoryMovies />} />
+            <Route path="/popular" element={<Popular />} />
+            <Route path="search" element={<SearchMovie />} />
+            <Route path="/categories/:name/:id" element={<CategoryForMovie />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

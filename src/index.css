@@ -4,6 +4,14 @@
   --color-primary-700: #512472;
   --color-primary-slow-800: #512472;
   --color-secondary: #151215;
-  --color-texto: #CECECE;
-  --color-button: #288C31;
+  --color-texto: #cecece;
+  --color-button: #288c31;
+}
+
+.section-taBar {
+  @apply md:hidden flex items-center justify-around w-full h-10 bg-indigo-400 fixed bottom-0 left-0 border-2 border-t-indigo-600 rounded-t-md;
+}
+
+.div-tabBar {
+  @apply flex flex-col items-center cursor-pointer;
 }
