@@ -1,18 +1,25 @@
 import { useContext, useEffect, useState } from "react";
-import { MoviesContext, type TypeMovieFetcher } from "../Types/TypesMovies";
-import { SkeletonHme } from "../UI/Loading";
+import {
+  MoviesContext,
+  type TypeMovieFetcher,
+} from "../Types_Custom/TypesMovies";
+import { SkeletonHome } from "../UI/Loading";
 import { DotsPages } from "../UI/DotsPages";
 import { ButtonPrevAndNext } from "../UI/Button_Prev_Next";
 import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
 import { Link, useLocation } from "react-router-dom";
+import { MovieModal } from "../UI/MovieModal";
 
 export const Popular = () => {
-  const [openId, setOpenId] = useState<number | null>(null);
+  const [openId, setOpenId] = useState<number | string | null>(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [listPopular, setListPopular] = useState<TypeMovieFetcher[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>(
+    null,
+  );
 
-  const { popular } = useContext(MoviesContext);
+  const { popular, trailerMovie, trailerKey } = useContext(MoviesContext);
 
   const location = useLocation();
   const isPopular = location.pathname === "/popular";
@@ -30,31 +37,43 @@ export const Popular = () => {
     populares();
   }, [page]);
 
+  const handleMovieSelect = async (movie: TypeMovieFetcher) => {
+    setSelectedMovie(movie);
+    await trailerMovie(movie.id);
+  };
+
   return (
     <>
       <Link to={"/popular"}>
-        <h2 className=" inline-flex ml-6 mb-4 mt-6 text-2xl font-bold drop-shadow-[3px_7px_6px_#4E38F3] md:text-3xl hover:text-indigo-500 hover:drop-shadow-[3px_7px_6px_#FFF]">
-          Popular
-        </h2>
+        <h2 className="title-componentes">Popular</h2>
       </Link>
       {loading ? (
-        <SkeletonHme loading={loading} col={true} pages={isPopular} />
+        <SkeletonHome loading={loading} col={true} pages={isPopular} />
       ) : (
         <div className="mx-6 relative">
           <section
-            className={`h-full relative p-2 border-2 border-indigo-600 rounded-2xl gap-3 ${
+            className={`section-poster ${
               isPopular
-                ? "grid grid-cols-4"
-                : "flex flex-row border-2 overflow-x-auto"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                : " h-full flex flex-row overflow-x-auto"
             }`}
           >
             {listPopular.map((movie) => (
-              <article key={movie.id} className="relative md:h-80 shrink-0">
-                <div className=" relative">
+              <article
+                key={movie.id}
+                className={`relative ${!isPopular ? "shrink-0" : ""}`}
+              >
+                <div className=" relative w-full">
                   <img
-                    className={`rounded-2xl md:h-80 ${isPopular ? "" : "h-32"}`}
-                    src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
-                    alt={movie.title}
+                    className={`rounded-lg w-full  ${
+                      isPopular ? "h-64 md:h-72 lg:h-96" : "h-44 md:h-72"
+                    }`}
+                    src={
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : "/no_disponible.png"
+                    }
+                    alt={movie.title || "Poster no disponible"}
                     title={movie.title}
                   />
                   <ButtonMenu
@@ -67,19 +86,38 @@ export const Popular = () => {
                   movieId={movie.id}
                   openId={openId}
                   setOpenId={setOpenId}
+                  onInfoClick={() => handleMovieSelect(movie)}
                 />
               </article>
             ))}
           </section>
           {isPopular ? (
-            <>
-              <ButtonPrevAndNext prevPage={prevPage} nextPage={nextPage} />
-              <DotsPages totalPages={10} currentPage={page} />
-            </>
+            <ButtonPrevAndNext
+              prevPage={prevPage}
+              nextPage={nextPage}
+              disabledPrev={page === 1}
+            />
           ) : (
             ""
           )}
         </div>
+      )}
+      {isPopular ? <DotsPages totalPages={10} currentPage={page} /> : ""}
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          isOpen={!!selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+        />
+      )}
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          isOpen={!!selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+          trailerKey={trailerKey}
+          onPlayTrailer={() => trailerMovie(selectedMovie.id)}
+        />
       )}
     </>
   );

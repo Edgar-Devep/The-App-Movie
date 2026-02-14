@@ -1,7 +1,6 @@
-import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { CiMenuKebab } from "react-icons/ci";
-import type { ButtonAndMenuFavorite } from "../Types/TypesMovies";
+import type { ButtonAndMenuFavorite, FavoriteInfoProps } from "../Types_Custom/TypesMovies";
 
 export const ButtonMenu = ({
   movieId,
@@ -9,14 +8,12 @@ export const ButtonMenu = ({
   setOpenId,
 }: ButtonAndMenuFavorite) => {
   return (
-    <>
-      <button
-        className="absolute top-2 right-2 bg-black/50 rounded-full cursor-pointer"
-        onClick={() => setOpenId(openId === movieId ? null : movieId)}
-      >
-        <CiMenuKebab className="text-white" />
-      </button>
-    </>
+    <button
+      className="absolute top-2 right-2 bg-black/50 rounded-full cursor-pointer hover:bg-black/70 transition-colors p-1"
+      onClick={() => setOpenId(openId === movieId ? null : movieId)}
+    >
+      <CiMenuKebab className="text-white md:text-lg" />
+    </button>
   );
 };
 
@@ -24,24 +21,21 @@ export const FavoriteInfo = ({
   movieId,
   openId,
   setOpenId,
-}: ButtonAndMenuFavorite) => {
+  onInfoClick,
+}: FavoriteInfoProps) => {
   return (
     <>
       {openId === movieId && (
-        <div className="flex flex-col absolute top-7 right-1 bg-black/80 shadow-lg rounded-md p-2 w-12 z-10 ">
+        <div className="flex flex-col absolute top-7 md:top-8 right-1 bg-black/80 shadow-lg rounded-md w-8 md:w-10 z-10">
           <button
-            onClick={() => setOpenId(null)}
-            className="flex items-center px-2 py-1 hover:bg-red-200 rounded cursor-pointer"
-            title="Favoritos"
-          >
-            <MdFavoriteBorder className="text-red-700" />
-          </button>
-          <button
-            onClick={() => setOpenId(null)}
-            className="flex items-center px-2 py-1 hover:bg-yellow-200 rounded cursor-pointer"
+            onClick={() => {
+              onInfoClick();
+              setOpenId(null);
+            }}
+            className="flex justify-center py-2 hover:bg-yellow-200 rounded cursor-pointer"
             title="Información"
           >
-            <IoMdInformationCircleOutline className="text-yellow-700" />
+            <IoMdInformationCircleOutline className="text-yellow-700 md:text-2xl" />
           </button>
         </div>
       )}

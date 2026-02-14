@@ -1,6 +1,6 @@
 import { FaHouseChimneyWindow } from "react-icons/fa6";
-import { MdYoutubeSearchedFor } from "react-icons/md";
-import { FaRegSave } from "react-icons/fa";
+import { LuSearch } from "react-icons/lu";
+import { FaRegBookmark } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export const UITabBar = () => {
@@ -19,11 +19,11 @@ export const UITabBar = () => {
         <div className="div-tabBar"
         onClick={() => navigate("/search")}
         >
-          <MdYoutubeSearchedFor className="text-md" />
+          <LuSearch className="text-md" />
           <span className="text-sm">Seach</span>
         </div>
         <div className="div-tabBar">
-          <FaRegSave className="text-md" />
+          <FaRegBookmark className="text-md" />
           <span className="text-sm">Whatch List</span>
         </div>
       </section>

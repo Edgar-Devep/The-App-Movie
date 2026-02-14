@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { API_TOKEN } from "./Secret";
-import { MoviesContext, type TypeMovieFetcher } from "../Types/TypesMovies";
+import {
+  MoviesContext,
+  type TrailerKeyVideo,
+  type TypeMovieFetcher,
+} from "../Types_Custom/TypesMovies";
 
 export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const [categoryId, setCategoryId] = useState<TypeMovieFetcher[]>([]);
+  const [trailerKey, setTrailerKey] = useState<TrailerKeyVideo[]>([]);
 
   // Configuracion de Peticion de Api The Movie Database
   const options = {
@@ -15,10 +20,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   };
 
   // funcion para obtener las peliculas mejor valoradas (top_rated) de Api The Movie Database
-  const posterPrincipalTop = async () => {
+  const posterPrincipalTop = async (page: number) => {
     try {
       const res = await fetch(
-        "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
+        `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`,
         options,
       );
 
@@ -27,7 +32,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       }
 
       const data = await res.json();
-      return data.results;
+      return data;
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
@@ -71,7 +76,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // funcion que obtiene las peliculas populares de Api The Movie Database
+  // funcion que obtiener las peliculas populares de Api The Movie Database
   const popular = async (page: number) => {
     try {
       const res = await fetch(
@@ -109,7 +114,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // funcion que obtiene la lista de géneros de películas de Api The Movie Database
+  // funcion que obtiener la lista de géneros de películas de Api The Movie Database
   const categoriesHome = async () => {
     try {
       const res = await fetch(
@@ -128,7 +133,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // funcion que obtiene películas filtradas por género (id) de Api The Movie Database
+  // funcion que obtiener películas filtradas por género (id) de Api The Movie Database
   const categoriesForId = async (id: number, page: number) => {
     try {
       const res = await fetch(
@@ -147,11 +152,32 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // funcion que obtiener trailer películas
+  const trailerMovie = async (id: number) => {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/videos`,
+        options,
+      );
+      if (!res.ok) {
+        throw new Error("Error al traer peticion");
+      }
+      const data = await res.json();
+      console.log(" data.results:", data.results);
+      setTrailerKey(data.results);
+      return data.results;
+    } catch (error) {
+      console.log("Error al traer Categorias", error);
+      return [];
+    }
+  };
+
   return (
     <>
       <MoviesContext.Provider
         value={{
           categoryId,
+          trailerKey,
           trendingMovieHome,
           unCominggMovie,
           popular,
@@ -159,6 +185,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
           posterPrincipalTop,
           categoriesHome,
           categoriesForId,
+          trailerMovie,
         }}
       >
         {children}

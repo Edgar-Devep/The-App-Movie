@@ -1,18 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RiUserSearchLine } from "react-icons/ri";
-import { MoviesContext, type TypeMovieFetcher } from "../Types/TypesMovies";
+import {
+  MoviesContext,
+  type TypeMovieFetcher,
+} from "../Types_Custom/TypesMovies";
 import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
-import { SkeletonHme } from "../UI/Loading";
+import { SkeletonHome } from "../UI/Loading";
+import { MovieModal } from "../UI/MovieModal";
 
 export const SearchMovie = () => {
-  const [openId, setOpenId] = useState<number | null>(null);
-  const [listMovies, setListMovies] = useState("");
+  const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
+  const [openId, setOpenId] = useState<number | string | null>(null);
   const [loading, setLoading] = useState(true);
   const [page] = useState(1);
+  const [listMovies, setListMovies] = useState("");
   const [searchResults, setSearchResults] = useState<TypeMovieFetcher[]>([]);
-  const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>(
+    null,
+  );
 
-  const { searchMovies, trendingMovieHome } = useContext(MoviesContext);
+  const { searchMovies, trendingMovieHome, trailerKey, trailerMovie } =
+    useContext(MoviesContext);
 
   const bestMovie = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
@@ -43,8 +51,12 @@ export const SearchMovie = () => {
     event.preventDefault();
   };
 
-  // 👇 si hay texto, usamos searchResults; si no, usamos movies
   const filterMovies = listMovies.length > 2 ? searchResults : movies;
+
+  const handleMovieSelect = async (movie: TypeMovieFetcher) => {
+    setSelectedMovie(movie);
+    await trailerMovie(movie.id);
+  };
 
   return (
     <>
@@ -68,32 +80,55 @@ export const SearchMovie = () => {
         </form>
       </div>
       {loading ? (
-        <SkeletonHme loading={loading} col={true} />
+        <SkeletonHome loading={loading} col={true} />
       ) : (
-        <section className="mx-6 p-2 grid grid-cols-4 gap-3 border-2 border-indigo-600 rounded-2xl relative">
-          {filterMovies.map((movie) => (
-            <article key={movie.id} className="relative">
-              <div className=" relative">
-                <img
-                  className=" rounded-2xl"
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  title={movie.title}
-                />
-                <ButtonMenu
+        <div className="mx-6 relative">
+          <section className="section-poster grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {filterMovies.map((movie) => (
+              <article key={movie.id} className="relative">
+                <div className=" relative w-full">
+                  <img
+                    className="w-full rounded-lg h-64 md:h-72 lg:h-96"
+                    src={
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : "/no_disponible.png"
+                    }
+                    alt={movie.title || "Poster no disponible"}
+                    title={movie.title}
+                  />
+                  <ButtonMenu
+                    movieId={movie.id}
+                    openId={openId}
+                    setOpenId={setOpenId}
+                  />
+                </div>
+                <FavoriteInfo
                   movieId={movie.id}
                   openId={openId}
                   setOpenId={setOpenId}
+                  onInfoClick={() => handleMovieSelect(movie)}
                 />
-              </div>
-              <FavoriteInfo
-                movieId={movie.id}
-                openId={openId}
-                setOpenId={setOpenId}
-              />
-            </article>
-          ))}
-        </section>
+              </article>
+            ))}
+          </section>
+        </div>
+      )}
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          isOpen={!!selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+        />
+      )}
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          isOpen={!!selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+          trailerKey={trailerKey}
+          onPlayTrailer={() => trailerMovie(selectedMovie.id)}
+        />
       )}
     </>
   );
