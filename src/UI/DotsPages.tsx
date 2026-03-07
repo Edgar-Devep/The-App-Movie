@@ -1,6 +1,7 @@
 import type { DotsPaginaProps } from "../Types_Custom/TypesMovies";
 
 export const DotsPages = ({ totalPages, currentPage }: DotsPaginaProps) => (
+  
   <div className="w-full h-full flex justify-center items-center mt-4 md:space-x-5">
     {Array.from({ length: totalPages }).map((_, index) => {
       const isActive = (currentPage - 1) % totalPages === index;

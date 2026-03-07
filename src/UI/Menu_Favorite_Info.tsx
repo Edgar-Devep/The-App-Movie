@@ -2,27 +2,20 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { CiMenuKebab } from "react-icons/ci";
 import type { ButtonAndMenuFavorite, FavoriteInfoProps } from "../Types_Custom/TypesMovies";
 
-export const ButtonMenu = ({
-  movieId,
-  openId,
-  setOpenId,
-}: ButtonAndMenuFavorite) => {
+export const ButtonMenu = ({ movieId, openId, setOpenId }: ButtonAndMenuFavorite) => {
+
   return (
     <button
       className="absolute top-2 right-2 bg-black/50 rounded-full cursor-pointer hover:bg-black/70 transition-colors p-1"
-      onClick={() => setOpenId(openId === movieId ? null : movieId)}
+      onClick={() => setOpenId(openId === movieId ? null : movieId)} title="Menu"
     >
       <CiMenuKebab className="text-white md:text-lg" />
     </button>
   );
 };
 
-export const FavoriteInfo = ({
-  movieId,
-  openId,
-  setOpenId,
-  onInfoClick,
-}: FavoriteInfoProps) => {
+export const FavoriteInfo = ({ movieId, openId, setOpenId, onInfoClick }: FavoriteInfoProps) => {
+  
   return (
     <>
       {openId === movieId && (
@@ -33,7 +26,7 @@ export const FavoriteInfo = ({
               setOpenId(null);
             }}
             className="flex justify-center py-2 hover:bg-yellow-200 rounded cursor-pointer"
-            title="Información"
+            title="Info."
           >
             <IoMdInformationCircleOutline className="text-yellow-700 md:text-2xl" />
           </button>

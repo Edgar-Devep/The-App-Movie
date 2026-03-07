@@ -1,21 +1,28 @@
 import { Link } from "react-router-dom";
 
-export const NotFound = () => {
+export const NotFound = ({title, src, alt, error, showBtn} : {title :string, src :string, alt :string, error?: string, showBtn? : boolean})  => {
+  
   return (
-    <main className=" relative flex flex-col justify-center items-center text-center w-full h-screen p-8">
-      <h2 className="absolute top-36 md:top-60 md:text-8xl text-5xl text-red-600 font-bold ">Error 404</h2>
-      <p className="absolute top-20 md:top-40 md:text-2xl mt-2 text-gray-700">La página que buscas no existe.</p>
+    <main className="flex flex-col justify-center items-center space-y-5 text-center w-full h-screen md:h-full">
+      <p className="text-lg md:text-xl mt-30 m-0 md:mt-33 text-gray-700">
+        {title}
+      </p>
       <img
-        className=" h-auto w-64 md:w-2xl"
-        src="/error_404.png"
-        alt="Ilustración de error 404"
+        className="h-1/2 md:h-2/3 md:w-80 m-0 mt-10 object-cover"
+        src={src}
+        alt={alt}
       />
+      <h2 className=" text-5xl md:text-6xl text-red-600 font-bold m-0 mb-14">
+        {error}
+      </h2>
+      {showBtn && (
       <Link
         to="/"
-        className="md:text-2xl mt-6 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition"
+        className="md:text-2xl mb-10 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition"
       >
         Volver al inicio
       </Link>
+      )}
     </main>
   );
 };

@@ -1,44 +1,63 @@
-import { LuSearch } from "react-icons/lu";
-import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { ListCategoriesMovies } from "../components/ListCategoriesMovies";
+import { RiSearch2Fill, RiSearch2Line } from "react-icons/ri";
+import { useCustomNavigate } from "../Types_Custom/CustomHooks";
 
 export const Nav = () => {
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "text-white" : "text-indigo-500";
+
+  const { categoryActive, setCategoryActive, linkClass } = useCustomNavigate();
+  
   return (
     <>
-      <nav className=" hidden md:flex items-center w-full p-6 bg-black/50 absolute top-0 border-2 border-b-indigo-600 z-3 md:pb-8 text-2xl">
+      <nav className=" hidden absolute md:flex items-center w-full pl-22 p-6 bg-black/50 top-0 border-2 border-b-indigo-600 z-3 md:pb-8 text-2xl">
         <ul className="flex justify-center gap-6 lg:gap-12 flex-1 lg:text-3xl">
           <li>
-            <NavLink to={"/"} className={linkClass}>
+            <NavLink to={"/"} className={linkClass} title="Home">
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/trending"} className={linkClass}>
+            <NavLink to={"/trending"} className={linkClass} title="Trending">
               Trending
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/coming-soon"} className={linkClass}>
+            <NavLink
+              to={"/coming-soon"}
+              className={linkClass}
+              title="Coming Soon"
+            >
               Coming Soon
             </NavLink>
           </li>
+          <li>
+            <NavLink to={"/popular"} className={linkClass} title="Popular">
+              Popular
+            </NavLink>
+          </li>
         </ul>
-        <ul className="flex items-center gap-3 ml-auto">
-          <li>
+        <ul className="flex items-center gap-4">
+          <li onClick={() => setCategoryActive(false)}>
             <NavLink to={"/search"} className={linkClass}>
-              <LuSearch title="Buscar" />
+              {({ isActive }) =>
+                isActive && !categoryActive ? (
+                  <RiSearch2Fill />
+                ) : (
+                  <RiSearch2Line />
+                )
+              }
             </NavLink>
           </li>
-          <li>
-            <NavLink to={"/search"} className={linkClass}>
-              <FaRegBookmark title="Mi Lista" />
+          <li onClick={() => setCategoryActive(false)}>
+            <NavLink to={"/my_list"} className={linkClass}>
+              {({ isActive }) =>
+                isActive && !categoryActive ? <FaBookmark /> : <FaRegBookmark />
+              }
             </NavLink>
           </li>
-          <li>
-            <ListCategoriesMovies />
+          <li onClick={() => setCategoryActive(true)}>
+            <ListCategoriesMovies showCategories={false} />
           </li>
         </ul>
       </nav>
