@@ -3,7 +3,7 @@ import { createContext } from "react";
 export const MoviesContext = createContext<TypeMoviesContext>({
   categoryId: [],
   trailerKey: [],
-  trendingMovieHome: async () => [],
+  trendingMovie: async () => [],
   unCominggMovie: async () => [],
   popular: async () => [],
   searchMovies: async () => [],
@@ -21,7 +21,7 @@ export const MoviesContext = createContext<TypeMoviesContext>({
 export type TypeMoviesContext = {
   categoryId: TypeMovieFetcher[];
   trailerKey: TrailerKeyVideo[];
-  trendingMovieHome: (page: number) => Promise<TypeMovieFetcher[]>;
+  trendingMovie: (page: number) => Promise<TypeMovieFetcher[]>;
   unCominggMovie: (page: number) => Promise<TypeMovieFetcher[]>;
   popular: (page: number) => Promise<TypeMovieFetcher[]>;
   searchMovies: (query: string) => Promise<TypeMovieFetcher[]>;
@@ -45,19 +45,25 @@ export type TypeMovieFetcher = {
   vote_count: number;
 };
 
+export type PosterPrincipalTopApiResponse = {
+  page: number;
+  results: TypeMovieFetcher[];
+  total_pages: number;
+  total_results: number;
+};
+
+export type CategoryWithMovies = {
+  id: number;
+  name: string;
+  movies: TypeMovieFetcher[];
+};
+
 export type TrailerKeyVideo = {
   id: string;
   key: string;
   site: string;
   type: string;
   name: string;
-};
-
-export type PosterPrincipalTopApiResponse = {
-  page: number;
-  results: TypeMovieFetcher[];
-  total_pages: number;
-  total_results: number;
 };
 
 export type MovieModalProps = {
@@ -88,9 +94,3 @@ export type ButtonAndMenuFavorite = {
 export interface FavoriteInfoProps extends ButtonAndMenuFavorite {
   onInfoClick: () => void;
 }
-
-export type CategoryWithMovies = {
-  id: number;
-  name: string;
-  movies: TypeMovieFetcher[];
-};

@@ -1,12 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+export const useCustomNavigate = () => {
+    const [categoryActive, setCategoryActive] = useState(false);
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    isActive ? "text-white" : "text-indigo-500";
+
+  return { categoryActive, setCategoryActive, linkClass }
+}
+
 
 export const useScroll = (isOpen: boolean) => {
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "unset";    
     return () => {
       document.body.style.overflow = "unset";
     };

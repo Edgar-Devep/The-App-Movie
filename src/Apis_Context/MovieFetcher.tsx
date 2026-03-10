@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { API_TOKEN } from "./Secret";
-import {
-  MoviesContext,
-  type TrailerKeyVideo,
-  type TypeMovieFetcher,
-} from "../Types_Custom/TypesMovies";
+import { MoviesContext, type TrailerKeyVideo, type TypeMovieFetcher } from "../Types_Custom/TypesMovies";
 
 export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const [categoryId, setCategoryId] = useState<TypeMovieFetcher[]>([]);
@@ -39,7 +35,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   };
 
   // funcion para obtener peliculas en tendencias(trending) de Api The Movie Database
-  const trendingMovieHome = async (page: number) => {
+  const trendingMovie = async (page: number) => {
     try {
       const resTrending = await fetch(
         `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${page}`,
@@ -88,8 +84,8 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
         throw new Error("Error al traer peticion");
       }
 
-      const data = await res.json();
-      return data.results;
+      const dataPopular = await res.json();
+      return dataPopular.results;
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
@@ -106,8 +102,8 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       if (!res.ok) {
         throw new Error("Error al traer peticion");
       }
-      const data = await res.json();
-      return data.results;
+      const dataSearch = await res.json();
+      return dataSearch.results;
     } catch (error) {
       console.log("Error al traer pelicula", error);
       return [];
@@ -126,8 +122,8 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
         throw new Error("Error al traer peticion");
       }
 
-      const data = await res.json();
-      return data.genres;
+      const dataCategoryList = await res.json();
+      return dataCategoryList.genres;
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
@@ -143,9 +139,9 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       if (!res.ok) {
         throw new Error("Error al traer peticion");
       }
-      const data = await res.json();
-      setCategoryId(data.results);
-      return data.results;
+      const dataCategoryForId = await res.json();
+      setCategoryId(dataCategoryForId.results);
+      return dataCategoryForId.results;
     } catch (error) {
       console.log("Error al traer Categorias", error);
       return [];
@@ -162,10 +158,9 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       if (!res.ok) {
         throw new Error("Error al traer peticion");
       }
-      const data = await res.json();
-      console.log(" data.results:", data.results);
-      setTrailerKey(data.results);
-      return data.results;
+      const dataTrailer = await res.json();
+      setTrailerKey(dataTrailer.results);
+      return dataTrailer.results;
     } catch (error) {
       console.log("Error al traer Categorias", error);
       return [];
@@ -178,7 +173,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
         value={{
           categoryId,
           trailerKey,
-          trendingMovieHome,
+          trendingMovie,
           unCominggMovie,
           popular,
           searchMovies,
