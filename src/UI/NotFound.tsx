@@ -12,13 +12,13 @@ export const NotFound = ({title, src, alt, error, showBtn} : {title :string, src
         src={src}
         alt={alt}
       />
-      <h2 className=" text-5xl md:text-6xl text-red-600 font-bold m-0 mb-14">
+      <h2 className=" text-5xl md:text-6xl text-blue-600 font-bold m-0 mb-14">
         {error}
       </h2>
       {showBtn && (
       <Link
         to="/"
-        className="md:text-2xl mb-10 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition"
+        className="md:text-2xl mb-10 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
       >
         Volver al inicio
       </Link>

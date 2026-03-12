@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { RiUserSearchLine } from "react-icons/ri";
-import {
-  MoviesContext,
-  type TypeMovieFetcher,
-} from "../Types_Custom/TypesMovies";
+import { RiSearch2Line, RiSearch2Fill } from "react-icons/ri";
+import { MoviesContext, type TypeMovieFetcher } from "../Types_Custom/TypesMovies";
 import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
 import { SkeletonHome } from "../UI/Loading";
 import { MovieModal } from "../UI/MovieModal";
+import { NotFound } from "../UI/NotFound";
 
 export const SearchMovie = () => {
   const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
@@ -15,12 +13,9 @@ export const SearchMovie = () => {
   const [page] = useState(1);
   const [listMovies, setListMovies] = useState("");
   const [searchResults, setSearchResults] = useState<TypeMovieFetcher[]>([]);
-  const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>(
-    null,
-  );
+  const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>( null );
 
-  const { searchMovies, trendingMovieHome, trailerKey, trailerMovie } =
-    useContext(MoviesContext);
+  const { searchMovies, trendingMovie, trailerKey, trailerMovie } = useContext(MoviesContext);
 
   const bestMovie = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
@@ -40,12 +35,12 @@ export const SearchMovie = () => {
   useEffect(() => {
     const search = async () => {
       setLoading(true);
-      const respuesta = await trendingMovieHome(page);
+      const respuesta = await trendingMovie(page);
       setMovies(respuesta);
       setLoading(false);
     };
     search();
-  }, [page]);
+  }, [page, trendingMovie]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,30 +55,34 @@ export const SearchMovie = () => {
 
   return (
     <>
-      <div className="flex justify-center px-6 py-8">
+      <div className="flex justify-center px-6 pb-10 pt-30 md:pt-34">
         <form
           onSubmit={handleSubmit}
-          className="flex justify-center items-center w-full h-12 md:w-90 p-6 bg-indigo-400 rounded-lg"
+          className="flex items-center w-1/2 h-12 p-6 bg-blue-400 rounded-lg"
         >
           <button type="submit" className="pr-2">
-            <RiUserSearchLine />
+            {listMovies ? <RiSearch2Fill /> : <RiSearch2Line /> }            
           </button>
+          
           <input
             value={listMovies}
             onChange={bestMovie}
             type="search"
             id="search"
+            title="Buscador"
             placeholder="Encuentra péliculas, series y más"
             autoComplete="off"
-            className=" outline-none w-full md:w-72 placeholder:text-sm"
+            className=" outline-none w-full placeholder:text-sm"
           />
         </form>
       </div>
+      
       {loading ? (
         <SkeletonHome loading={loading} col={true} />
-      ) : (
+      ) : 
+      filterMovies.length > 0 ? (
         <div className="mx-6 relative">
-          <section className="section-poster grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <section className="section_poster grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {filterMovies.map((movie) => (
               <article key={movie.id} className="relative">
                 <div className=" relative w-full">
@@ -113,14 +112,10 @@ export const SearchMovie = () => {
             ))}
           </section>
         </div>
+      ) : (
+        <NotFound title="La pelicula que buscas no existe" src="/Opss_error.png" alt="Error pelicula no encontrada" error="NO Encontrada"/>
       )}
-      {selectedMovie && (
-        <MovieModal
-          movie={selectedMovie}
-          isOpen={!!selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-        />
-      )}
+
       {selectedMovie && (
         <MovieModal
           movie={selectedMovie}

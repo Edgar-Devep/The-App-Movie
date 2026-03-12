@@ -10,7 +10,7 @@ export const Nav = () => {
   
   return (
     <>
-      <nav className=" hidden absolute md:flex items-center w-full pl-22 p-6 bg-black/50 top-0 border-2 border-b-indigo-600 z-3 md:pb-8 text-2xl">
+      <nav className=" hidden absolute md:flex items-center w-full pl-22 p-6 bg-black/50 top-0 border-2 border-b-blue-600 z-3 md:pb-8 text-2xl">
         <ul className="flex justify-center gap-6 lg:gap-12 flex-1 lg:text-3xl">
           <li>
             <NavLink to={"/"} className={linkClass} title="Home">

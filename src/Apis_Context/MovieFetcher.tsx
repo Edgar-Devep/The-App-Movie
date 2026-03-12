@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { API_TOKEN } from "./Secret";
 import { MoviesContext, type TrailerKeyVideo, type TypeMovieFetcher } from "../Types_Custom/TypesMovies";
+
+// Configuracion de Peticion de Api The Movie Database
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: API_TOKEN,
+  },
+};
 
 export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const [categoryId, setCategoryId] = useState<TypeMovieFetcher[]>([]);
   const [trailerKey, setTrailerKey] = useState<TrailerKeyVideo[]>([]);
 
-  // Configuracion de Peticion de Api The Movie Database
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: API_TOKEN,
-    },
-  };
 
   // funcion para obtener las peliculas mejor valoradas (top_rated) de Api The Movie Database
-  const posterPrincipalTop = async (page: number) => {
+  const posterPrincipalTop = useCallback(async (page: number) => {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`,
@@ -32,10 +33,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
-  };
+  }, []);
 
   // funcion para obtener peliculas en tendencias(trending) de Api The Movie Database
-  const trendingMovie = async (page: number) => {
+  const trendingMovie = useCallback(async (page: number) => {
     try {
       const resTrending = await fetch(
         `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${page}`,
@@ -51,10 +52,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
-  };
+  }, []);
 
   // funcion para obtener peliculas proximas en estrenar (upcoming) de Api The Movie Database
-  const unCominggMovie = async (page: number) => {
+  const unCominggMovie = useCallback(async (page: number) => {
     try {
       const resUpComing = await fetch(
         `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${page}`,
@@ -70,10 +71,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
-  };
+  },[]);
 
   // funcion que obtiener las peliculas populares de Api The Movie Database
-  const popular = async (page: number) => {
+  const popular = useCallback(async (page: number) => {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`,
@@ -89,10 +90,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
-  };
+  }, []);
 
   // funcion ue busca películas por texto (query) de Api The Movie Database
-  const searchMovies = async (query: string) => {
+  const searchMovies = useCallback(async (query: string) => {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?query=${query}&language=en-US&page=1&include_adult=false`,
@@ -108,10 +109,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       console.log("Error al traer pelicula", error);
       return [];
     }
-  };
+  }, []);
 
   // funcion que obtiener la lista de géneros de películas de Api The Movie Database
-  const categoriesHome = async () => {
+  const categoriesHome = useCallback(async () => {
     try {
       const res = await fetch(
         "https://api.themoviedb.org/3/genre/movie/list?language=en",
@@ -127,10 +128,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.log("Error al traer pelicula", error);
     }
-  };
+  }, []);
 
   // funcion que obtiener películas filtradas por género (id) de Api The Movie Database
-  const categoriesForId = async (id: number, page: number) => {
+  const categoriesForId = useCallback(async (id: number, page: number) => {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${id}`,
@@ -146,10 +147,10 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       console.log("Error al traer Categorias", error);
       return [];
     }
-  };
+  }, []);
 
   // funcion que obtiener trailer películas
-  const trailerMovie = async (id: number) => {
+  const trailerMovie = useCallback(async (id: number) => {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/videos`,
@@ -165,7 +166,7 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
       console.log("Error al traer Categorias", error);
       return [];
     }
-  };
+  }, []);
 
   return (
     <>

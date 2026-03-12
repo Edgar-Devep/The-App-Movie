@@ -18,7 +18,7 @@ function Layout() {
   const isHomePage = location.pathname === "/";
 
   return (
-    <div className="w-full min-h-screen bg-linear-to-b from-secondary via-primary-slow-800 to-secondary">
+    <div className="w-full min-h-screen bg-linear-to-b from-secondary via-primary-slow-900 to-secondary">
       
       {isHomePage ? (
         <div className="relative">

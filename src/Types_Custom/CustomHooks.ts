@@ -4,7 +4,7 @@ export const useCustomNavigate = () => {
     const [categoryActive, setCategoryActive] = useState(false);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "text-white" : "text-indigo-500";
+    isActive ? "text-white" : "text-blue-500";
 
   return { categoryActive, setCategoryActive, linkClass }
 }

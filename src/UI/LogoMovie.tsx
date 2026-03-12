@@ -10,7 +10,7 @@ export const LogoMovie = () => {
         to={"/"}
         className="pl-3 pt-1 inline-flex items-center gap-2 md:gap-0 md:items-center md:flex-col"
       >
-        <p className="text-indigo-500 text-base font-bold md:text-xl">
+        <p className="text-blue-500 text-base font-bold md:text-xl">
           The Movie
         </p>
         <img

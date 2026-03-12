@@ -45,6 +45,12 @@ export type TypeMovieFetcher = {
   vote_count: number;
 };
 
+export type MovieListProps = {
+  title: string
+  path: string
+  fetchMovies: (page: number) => Promise<TypeMovieFetcher[]>
+}
+
 export type PosterPrincipalTopApiResponse = {
   page: number;
   results: TypeMovieFetcher[];
