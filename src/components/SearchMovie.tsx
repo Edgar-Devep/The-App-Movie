@@ -5,6 +5,7 @@ import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
 import { SkeletonHome } from "../UI/Loading";
 import { MovieModal } from "../UI/MovieModal";
 import { NotFound } from "../UI/NotFound";
+import { LogoMovie } from "../UI/LogoMovie";
 
 export const SearchMovie = () => {
   const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
@@ -55,7 +56,10 @@ export const SearchMovie = () => {
 
   return (
     <>
-      <div className="flex justify-center px-6 pb-10 pt-30 md:pt-34">
+      <div className="flex justify-center md:hidden">
+        <LogoMovie />
+      </div>
+      <div className="flex justify-center px-6 pb-10 pt-30 md:pt-44">
         <form
           onSubmit={handleSubmit}
           className="flex items-center w-1/2 h-12 p-6 bg-blue-400 rounded-lg"

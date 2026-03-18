@@ -6,7 +6,6 @@ import { UITabBar } from "./UI/TabBar";
 import { SearchMovie } from "./components/SearchMovie";
 import { PosterPathPrincipal } from "./components/Poster_Path_Principal";
 import { NotFound } from "./UI/NotFound";
-import { LogoMovie } from "./UI/LogoMovie";
 import { Nav } from "./UI/Nav";
 import { CategoryMovies } from "./components/Category";
 import { Popular } from "./components/Popular";
@@ -23,12 +22,10 @@ function Layout() {
       {isHomePage ? (
         <div className="relative">
           <PosterPathPrincipal />
-          <LogoMovie />
           <Nav />
         </div>
       ) : (
         <>
-          <LogoMovie />
           <Nav />
         </>
       )}

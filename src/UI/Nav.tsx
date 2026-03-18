@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { ListCategoriesMovies } from "../components/ListCategoriesMovies";
 import { RiSearch2Fill, RiSearch2Line } from "react-icons/ri";
 import { useCustomNavigate } from "../Types_Custom/CustomHooks";
+import { LogoMovie } from "./LogoMovie";
 
 export const Nav = () => {
 
@@ -10,7 +11,10 @@ export const Nav = () => {
   
   return (
     <>
-      <nav className=" hidden absolute md:flex items-center w-full pl-22 p-6 bg-black/50 top-0 border-2 border-b-blue-600 z-3 md:pb-8 text-2xl">
+      <nav className=" hidden absolute md:flex items-center w-full p-4 bg-black/50 top-0 border-2 border-b-blue-600 z-3 text-2xl">
+          <div className="md:block">
+            <LogoMovie />
+          </div>    
         <ul className="flex justify-center gap-6 lg:gap-12 flex-1 lg:text-3xl">
           <li>
             <NavLink to={"/"} className={linkClass} title="Home">

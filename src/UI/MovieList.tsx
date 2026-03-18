@@ -6,6 +6,7 @@ import { DotsPages } from "./DotsPages";
 import { MovieModal } from "./MovieModal";
 import { useContext, useEffect, useState } from "react";
 import { MoviesContext, type MovieListProps, type TypeMovieFetcher } from "../Types_Custom/TypesMovies";
+import { LogoMovie } from "./LogoMovie";
 
 export const MovieList = ({ title, path, fetchMovies }: MovieListProps) => {
   const [movies, setMovies] = useState<TypeMovieFetcher[]>([]);
@@ -40,9 +41,14 @@ export const MovieList = ({ title, path, fetchMovies }: MovieListProps) => {
 
   return (
     <>
+     {isCurrentPage && 
+        <div className="flex justify-center md:hidden">
+          <LogoMovie />
+        </div>
+      }
       <Link to={path}>
         <h2
-          className={`title_componentes ${isCurrentPage ? "mt-20 md:mt-30 mb-10" : "m-6"}`}
+          className={`title_componentes ${isCurrentPage ? "mt-20 md:mt-44 mb-10" : "m-6"}`}
           title={title}
         >
           {title}

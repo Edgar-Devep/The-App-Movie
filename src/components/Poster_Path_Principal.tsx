@@ -4,6 +4,7 @@ import { ButtonPrevAndNext } from "../UI/Button_Prev_Next";
 import { DotsPages } from "../UI/DotsPages";
 import { SkeletonHome } from "../UI/Loading";
 import { MovieModal } from "../UI/MovieModal";
+import { LogoMovie } from "../UI/LogoMovie";
 
 const STORAGE_KEY_MOVIES = "dailyMovies";
 const STORAGE_KEY_DATE = "lastUpdate";
@@ -77,6 +78,9 @@ export const PosterPathPrincipal = () => {
       ) : (
         <>
           <section className="flex flex-row">
+            <div className="md:hidden">
+              <LogoMovie />
+            </div>
             {currentMovie && (
               <article
                 key={currentMovie.id}

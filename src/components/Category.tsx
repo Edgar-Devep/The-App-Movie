@@ -1,31 +1,21 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  MoviesContext,
-  type CategoryWithMovies,
-  type TypeMovieFetcher,
-} from "../Types_Custom/TypesMovies";
+import { MoviesContext, type CategoryWithMovies, type TypeMovieFetcher } from "../Types_Custom/TypesMovies";
 import { Link } from "react-router-dom";
 import { ButtonMenu, FavoriteInfo } from "../UI/Menu_Favorite_Info";
 import { SkeletonHome } from "../UI/Loading";
 import { MovieModal } from "../UI/MovieModal";
 
 export const CategoryMovies = () => {
-  const { categoriesHome, categoriesForId, trailerKey, trailerMovie } =
-    useContext(MoviesContext);
+  const { categoriesHome, categoriesForId, trailerKey, trailerMovie } = useContext(MoviesContext);
 
+  const [categoriesWithMovies, setCategoriesWithMovies] = useState<CategoryWithMovies[]>([]);
   const [openId, setOpenId] = useState<string | number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>(
-    null,
-  );
-  const [categoriesWithMovies, setCategoriesWithMovies] = useState<
-    CategoryWithMovies[]
-  >([]);
+  const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>( null );
 
   useEffect(() => {
     const fetchAllCategories = async () => {
       setLoading(true);
-
       const categories = await categoriesHome();
 
       if (!categories) {
@@ -49,7 +39,7 @@ export const CategoryMovies = () => {
     };
 
     fetchAllCategories();
-  }, []);
+  }, [categoriesHome, categoriesForId]);
 
   const handleMovieSelect = async (movie: TypeMovieFetcher) => {
     setSelectedMovie(movie);
@@ -60,7 +50,7 @@ export const CategoryMovies = () => {
     <div>
       {loading ? (
         <>
-          <div className="title-componentes">Action</div>
+          <div className="title_componentes">Action</div>
           <SkeletonHome loading={loading} col={true} pages={false} />
         </>
       ) : (
@@ -68,12 +58,14 @@ export const CategoryMovies = () => {
           {categoriesWithMovies.map((category) => {
             return (
               <div key={category.id}>
-                <Link to={`/categories/${category.name}/${category.id}`}>
-                  <h2 className="title-componentes">{category.name}</h2>
+                <Link to={`/categories/${category.name}/${category.id}/`}>
+                  <h2 className="title_componentes m-6" title={category.name}>
+                    {category.name}
+                  </h2>
                 </Link>
 
                 <div className="mx-6 relative">
-                  <section className="h-full relative p-1 flex flex-row gap-2 border-2 border-indigo-600 rounded-2xl overflow-x-auto">
+                  <section className="h-full relative p-1 flex flex-row gap-2 border-2 border-blue-600 rounded-2xl overflow-x-auto">
                     {category.movies.map((movie: TypeMovieFetcher) => {
                       return (
                         <article key={movie.id} className="shrink-0 relative">

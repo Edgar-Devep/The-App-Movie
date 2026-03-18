@@ -1,18 +1,17 @@
 import { IoClose } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { FaStar, FaCalendar, FaClock, FaVideo } from "react-icons/fa";
+import { FaStar, FaCalendar, FaClock, FaVideo, FaCheck } from "react-icons/fa";
 import type { MovieModalProps } from "../Types_Custom/TypesMovies";
 import { useKeyDown, useScroll } from "../Types_Custom/CustomHooks";
 import { useState } from "react";
+import { likeMovie } from "../components/Like_Movies";
 
-export const MovieModal = ({
-  movie,
-  isOpen,
-  onClose,
-  trailerKey,
-  onPlayTrailer,
-}: MovieModalProps) => {
+export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }: MovieModalProps) => {
   const [showTrailer, setShowTrailer] = useState(false);
+  const [checkFavorite, setCheckFavorite] = useState(() => {
+  const liked = JSON.parse(localStorage.getItem("liked-movie") || "{}");
+  return !!liked[movie.id];
+});
 
   useScroll(isOpen);
   useKeyDown(isOpen, onClose);
@@ -51,10 +50,10 @@ export const MovieModal = ({
         {!showTrailer && (
           <button
             onClick={handleClose}
-            className="btns-close-inf-trailer-modal"
+            className="btns_close_inf_trailer_modal"
             title="Cerrar"
           >
-            <IoClose className="btns-icon-close-modal" />
+            <IoClose className="btns_icon_close_modal" />
           </button>
         )}
 
@@ -62,10 +61,10 @@ export const MovieModal = ({
           <div className="relative">
             <button
               onClick={handleCloseTrailer}
-              className="btns-close-inf-trailer-modal"
+              className="btns_close_inf_trailer_modal"
               title="Cerrar trailer"
             >
-              <IoClose className="btns-icon-close-modal" />
+              <IoClose className="btns_icon_close_modal" />
             </button>
             <div className="aspect-video w-full">
               <iframe
@@ -119,7 +118,7 @@ export const MovieModal = ({
                 className={
                   showTrailer
                     ? "hidden"
-                    : "w-40 md:w-48 rounded-xl shadow-2xl border-2 border-indigo-500/90 "
+                    : "w-40 md:w-48 rounded-xl shadow-2xl border-2 border-blue-500/90 "
                 }
               />
             </div>
@@ -127,9 +126,7 @@ export const MovieModal = ({
             <div className="flex-1 text-white">
               <h2
                 className={
-                  showTrailer
-                    ? "title-modal pt-8 md:pt-12"
-                    : "title-modal"
+                  showTrailer ? "title_modal pt-8 md:pt-12" : "title_modal"
                 }
               >
                 {movie.title}
@@ -165,14 +162,22 @@ export const MovieModal = ({
 
               <div className="flex space-x-5">
                 <button
-                  className="btns-add-video-modal"
+                  className="btns_add_video_modal"
                   title="Agregar a favoritos"
+                  onClick={() => {
+                    likeMovie(movie);
+                    setCheckFavorite(!checkFavorite);
+                  }}
                 >
-                  <IoIosAddCircleOutline className="text-xl" />
+                  {checkFavorite ? (
+                    <FaCheck className="text-green-500 text-2xl" />
+                  ) : (
+                    <IoIosAddCircleOutline className="text-2xl" />
+                  )}
                 </button>
                 {officialTrailer && (
                   <button
-                    className="btns-add-video-modal"
+                    className="btns_add_video_modal"
                     onClick={handlePlayTrailer}
                     title="Ver trailer"
                   >
