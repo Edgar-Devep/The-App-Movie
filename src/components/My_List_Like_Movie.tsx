@@ -12,7 +12,6 @@ const getMoviesArray = (): TypeMovieFetcher[] => {
 };
 
 export const My_List_Like_Movie = () => {
-  // ✅ Carga inicial directa en useState, sin pasar por useEffect
   const [likedMovies, setLikedMovies] = useState<TypeMovieFetcher[]>(getMoviesArray);
   const [selectedMovie, setSelectedMovie] = useState<TypeMovieFetcher | null>( null,);
   const [openId, setOpenId] = useState<number | string | null>(null);
@@ -20,13 +19,12 @@ export const My_List_Like_Movie = () => {
   const { trailerMovie, trailerKey } = useContext(MoviesContext);
 
   useEffect(() => {
-    // ✅ setState solo se llama desde el callback del listener, no en el cuerpo del efecto
     const handleStorage = () => {
       setLikedMovies(getMoviesArray());
     };
+    document.documentElement.scrollTop = 0;
     
     window.addEventListener("storage", handleStorage);
-    document.documentElement.scrollTop = 0;
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
