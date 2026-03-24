@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { MoviesContext, type TypeMovieFetcher } from "../Types_Custom/TypesMovies";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useKeyDown, useScroll } from "../Types_Custom/CustomHooks";
 
 export const ListCategoriesMovies = ({ showCategories }: { showCategories: boolean }) => {
 
@@ -10,6 +11,9 @@ export const ListCategoriesMovies = ({ showCategories }: { showCategories: boole
   const navigate = useNavigate();
 
   const { categoriesHome } = useContext(MoviesContext);
+
+  useScroll(open);
+  useKeyDown(open, () => setOpen(false));
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -23,13 +27,13 @@ export const ListCategoriesMovies = ({ showCategories }: { showCategories: boole
     <>
       <div className="relative inline-block text-left">
         <button
-          className={`flex items-center gap-2 ${showCategories ? "" : "pt-2"}`}
+          className={`flex items-center gap-2 cursor-pointer ${showCategories ? "" : "pt-2"}`}
           title="Categories"
           onClick={() => setOpen(!open)}
         >
           {open ? (
             <FaTimes
-              className="text-white"
+              className="text-white relative z-50"
             />
           ) : (
             <FaBars
@@ -41,11 +45,11 @@ export const ListCategoriesMovies = ({ showCategories }: { showCategories: boole
         {open && (
           <>
             <div
-              className={`fixed ${showCategories ? "left-0 right-0 top-0 bottom-14" : "left-0 right-0 top-18 bottom-0"}`}
+              className={"fixed inset-0 bg-black/70 z-40 cursor-default"}
               onClick={() => setOpen(false)}
             />
             <div
-              className={`absolute w-fit bg-blue-500/70 rounded-md right-0 overflow-y-auto ${showCategories ? "bottom-full mb-4 max-h-100 " : "mt-2 max-h-148"} `}
+              className={`absolute z-50 w-fit bg-blue-500/70 rounded-md right-0 overflow-y-auto ${showCategories ? "bottom-full mb-4 max-h-100 " : "mt-2 max-h-148"} `}
             >
               {categoryList.map((category) => (
                 <div

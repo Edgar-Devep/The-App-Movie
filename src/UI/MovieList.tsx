@@ -42,13 +42,13 @@ export const MovieList = ({ title, path, fetchMovies }: MovieListProps) => {
   return (
     <>
      {isCurrentPage && 
-        <div className="flex justify-center md:hidden">
+        <div className="pt-6 md:hidden">
           <LogoMovie />
         </div>
       }
       <Link to={path}>
         <h2
-          className={`title_componentes ${isCurrentPage ? "mt-20 md:mt-44 mb-10" : "m-6"}`}
+          className={`title_componentes ${isCurrentPage ? "cursor-text mt-10 md:mt-44 mb-10" : "m-6"}`}
           title={title}
         >
           {title}
@@ -89,13 +89,13 @@ export const MovieList = ({ title, path, fetchMovies }: MovieListProps) => {
                     openId={openId}
                     setOpenId={setOpenId}
                   />
+                  <FavoriteInfo
+                    movieId={movie.id}
+                    openId={openId}
+                    setOpenId={setOpenId}
+                    onInfoClick={() => handleMovieSelect(movie)}
+                  />
                 </div>
-                <FavoriteInfo
-                  movieId={movie.id}
-                  openId={openId}
-                  setOpenId={setOpenId}
-                  onInfoClick={() => handleMovieSelect(movie)}
-                />
               </article>
             ))}
           </section>

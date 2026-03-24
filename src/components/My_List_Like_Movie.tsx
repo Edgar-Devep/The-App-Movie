@@ -43,10 +43,10 @@ export const My_List_Like_Movie = () => {
         />
       ) : (
         <>
-          <div className="flex justify-center md:hidden">
+          <div className="pt-6 md:hidden">
             <LogoMovie />
           </div>
-          <h1 className="title_componentes mt-20 md:mt-44 mb-10" title="Favoritos">
+          <h1 className="title_componentes mt-10 md:mt-44 mb-10" title="Favoritos">
             Mis Favoritos
           </h1>
           <div className="relative mx-6 ">

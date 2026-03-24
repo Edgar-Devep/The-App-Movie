@@ -18,12 +18,15 @@ export const SearchMovie = () => {
 
   const { searchMovies, trendingMovie, trailerKey, trailerMovie } = useContext(MoviesContext);
 
+  const MIN_SEARCH_LENGTH = 0 
+
   const bestMovie = async (event: React.ChangeEvent<HTMLInputElement>) => {
+
     setLoading(true);
 
     const value = event.target.value;
     setListMovies(value);
-    if (value.length > 2) {
+    if (value.length > MIN_SEARCH_LENGTH) {
       const results = await searchMovies(value);
       setSearchResults(results);
       setLoading(false);
@@ -47,7 +50,7 @@ export const SearchMovie = () => {
     event.preventDefault();
   };
 
-  const filterMovies = listMovies.length > 2 ? searchResults : movies;
+  const filterMovies = listMovies.length > MIN_SEARCH_LENGTH ? searchResults : movies;
 
   const handleMovieSelect = async (movie: TypeMovieFetcher) => {
     setSelectedMovie(movie);
@@ -56,10 +59,10 @@ export const SearchMovie = () => {
 
   return (
     <>
-      <div className="flex justify-center md:hidden">
+      <div className="pt-6 md:hidden">
         <LogoMovie />
       </div>
-      <div className="flex justify-center px-6 pb-10 pt-30 md:pt-44">
+      <div className="flex justify-center px-6 pb-10 pt-15 md:pt-44">
         <form
           onSubmit={handleSubmit}
           className="flex items-center w-1/2 h-12 p-6 bg-blue-400 rounded-lg"

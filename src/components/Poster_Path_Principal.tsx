@@ -26,7 +26,7 @@ export const PosterPathPrincipal = () => {
   useEffect(() => {
     const loadMovies = async () => {
       setLoading(true);
-      
+
       try {
         const today = new Date().toDateString();
         const lastUpdate = localStorage.getItem(STORAGE_KEY_DATE);
@@ -78,14 +78,14 @@ export const PosterPathPrincipal = () => {
       ) : (
         <>
           <section className="flex flex-row">
-            <div className="md:hidden">
-              <LogoMovie />
-            </div>
             {currentMovie && (
               <article
                 key={currentMovie.id}
                 className="w-full h-full relative shrink-0"
               >
+                <div className="absolute md:hidden">
+                  <LogoMovie />
+                </div>
                 <img
                   className="w-full h-auto"
                   src={
@@ -95,11 +95,6 @@ export const PosterPathPrincipal = () => {
                   }
                   alt={currentMovie.title || "Poster no disponible"}
                   title={currentMovie.title}
-                />
-                <ButtonPrevAndNext
-                  prevPage={prevPage}
-                  nextPage={nextPage}
-                  disabledPrev={virtualPage === 1}
                 />
 
                 <div className="absolute bottom-0 left-0 w-full gap-y-2 px-3 pb-2.5 bg-black/60 text-white">
@@ -123,6 +118,11 @@ export const PosterPathPrincipal = () => {
                     {currentMovie.overview}
                   </p>
                 </div>
+                <ButtonPrevAndNext
+                  prevPage={prevPage}
+                  nextPage={nextPage}
+                  disabledPrev={virtualPage === 1}
+                />
               </article>
             )}
           </section>

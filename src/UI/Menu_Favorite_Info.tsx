@@ -19,18 +19,25 @@ export const FavoriteInfo = ({ movieId, openId, setOpenId, onInfoClick }: Favori
   return (
     <>
       {openId === movieId && (
-        <div className="flex flex-col absolute top-7 md:top-8 right-1 bg-black/80 shadow-lg rounded-md w-8 md:w-10 z-10">
+        <>
+        <div className="fixed inset-0 z-20"
+        onClick={() => setOpenId(null)}
+        />
+
+        <div className="flex flex-col absolute z-20 top-8 md:top-8 right-1 bg-black/80 shadow-lg rounded-md w-8 md:w-10"
+        >
           <button
             onClick={() => {
               onInfoClick();
               setOpenId(null);
             }}
-            className="flex justify-center py-2 hover:bg-yellow-200 rounded cursor-pointer"
+            className=" flex justify-center py-2 hover:bg-yellow-200 rounded cursor-pointer"
             title="Info."
           >
             <IoMdInformationCircleOutline className="text-yellow-700 md:text-2xl" />
           </button>
         </div>
+        </>
       )}
     </>
   );

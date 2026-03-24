@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 export const LogoMovie = () => {
   return (
     <div
-      className={"absolute top-3 md:static z-5 flex justify-center items-center drop-shadow-[3px_7px_6px_#fff]"
-      }
+      className="flex justify-center items-center drop-shadow-[3px_7px_6px_#fff]"      
     >
       <Link
         to={"/"}

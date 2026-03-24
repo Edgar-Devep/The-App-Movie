@@ -11,8 +11,8 @@ export const Nav = () => {
   
   return (
     <>
-      <nav className=" hidden absolute md:flex items-center w-full p-4 bg-black/50 top-0 border-2 border-b-blue-600 z-3 text-2xl">
-          <div className="md:block">
+      <nav className=" hidden absolute md:flex items-center w-full p-4 bg-black/50 top-0 border-2 border-b-blue-600 z-20 text-2xl">
+          <div>
             <LogoMovie />
           </div>    
         <ul className="flex justify-center gap-6 lg:gap-12 flex-1 lg:text-3xl">
