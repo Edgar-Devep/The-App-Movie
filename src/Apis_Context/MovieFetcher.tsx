@@ -14,7 +14,7 @@ const options = {
 export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
   const [categoryId, setCategoryId] = useState<TypeMovieFetcher[]>([]);
   const [trailerKey, setTrailerKey] = useState<TrailerKeyVideo[]>([]);
-
+  const [openMenuCategories, setOpenMenuCategories] = useState(false);
 
   // funcion para obtener las peliculas mejor valoradas (top_rated) de Api The Movie Database
   const posterPrincipalTop = useCallback(async (page: number) => {
@@ -172,6 +172,8 @@ export const MovieFetcher = ({ children }: { children: React.ReactNode }) => {
     <>
       <MoviesContext.Provider
         value={{
+          openMenuCategories,
+          setOpenMenuCategories,
           categoryId,
           trailerKey,
           trendingMovie,

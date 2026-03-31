@@ -46,7 +46,7 @@ export const MovieList = ({ title, path, fetchMovies }: MovieListProps) => {
           <LogoMovie />
         </div>
       }
-      <Link to={path}>
+      <Link to={path} className={isCurrentPage ? "pointer-events-none" : ""}>
         <h2
           className={`title_componentes ${isCurrentPage ? "cursor-text mt-10 md:mt-44 mb-10" : "m-6"}`}
           title={title}

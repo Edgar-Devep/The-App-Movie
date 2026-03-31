@@ -83,40 +83,44 @@ export const PosterPathPrincipal = () => {
                 key={currentMovie.id}
                 className="w-full h-full relative shrink-0"
               >
-                <div className="absolute md:hidden">
+                <div
+                  className="absolute md:hidden "
+                >
                   <LogoMovie />
                 </div>
-                <img
-                  className="w-full h-auto"
-                  src={
-                    currentMovie.backdrop_path
-                      ? `https://image.tmdb.org/t/p/w500${currentMovie.backdrop_path}`
-                      : "/no_disponible.png"
-                  }
-                  alt={currentMovie.title || "Poster no disponible"}
-                  title={currentMovie.title}
-                />
+                <div
+                  className="cursor-pointer"
+                  onClick={() => handleMovieSelect(currentMovie)}
+                >
+                  <img
+                    className="w-full h-auto"
+                    src={
+                      currentMovie.backdrop_path
+                        ? `https://image.tmdb.org/t/p/w500${currentMovie.backdrop_path}`
+                        : "/no_disponible.png"
+                    }
+                    alt={currentMovie.title || "Poster no disponible"}
+                    title={currentMovie.title}
+                  />
 
-                <div className="absolute bottom-0 left-0 w-full gap-y-2 px-3 pb-2.5 bg-black/60 text-white">
-                  <div className="text-center">
-                    <h2
-                      className="inline-block px-8 line-clamp-1 text-lg font-bold md:text-2xl lg:text-3xl hover:text-blue-500 cursor-pointer"
-                      onClick={() => handleMovieSelect(currentMovie)}
-                    >
-                      {currentMovie.title}
-                    </h2>
+                  <div className="absolute bottom-0 left-0 w-full gap-y-2 px-3 pb-2.5 bg-black/60 text-white">
+                    <div className="text-center">
+                      <h2 className="inline-block px-8 line-clamp-1 text-lg font-bold md:text-2xl lg:text-3xl">
+                        {currentMovie.title}
+                      </h2>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-md md:text-lg lg:text-xl">
+                        ⭐ {currentMovie.popularity.toFixed(1)}
+                      </span>
+                      <span className="text-md md:text-lg lg:text-xl">
+                        {currentMovie.release_date}
+                      </span>
+                    </div>
+                    <p className="line-clamp-2 text-md md:line-clamp-3 md:text-lg lg:text-xl">
+                      {currentMovie.overview}
+                    </p>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-md md:text-lg lg:text-xl">
-                      ⭐ {currentMovie.popularity.toFixed(1)}
-                    </span>
-                    <span className="text-md md:text-lg lg:text-xl">
-                      {currentMovie.release_date}
-                    </span>
-                  </div>
-                  <p className="line-clamp-2 text-md md:line-clamp-3 md:text-lg lg:text-xl">
-                    {currentMovie.overview}
-                  </p>
                 </div>
                 <ButtonPrevAndNext
                   prevPage={prevPage}

@@ -1,6 +1,8 @@
 import { createContext } from "react";
 
 export const MoviesContext = createContext<TypeMoviesContext>({
+  openMenuCategories: false,
+  setOpenMenuCategories: () => {},
   categoryId: [],
   trailerKey: [],
   trendingMovie: async () => [],
@@ -19,6 +21,8 @@ export const MoviesContext = createContext<TypeMoviesContext>({
 });
 
 export type TypeMoviesContext = {
+  openMenuCategories: boolean,
+  setOpenMenuCategories: (value: boolean) => void,
   categoryId: TypeMovieFetcher[];
   trailerKey: TrailerKeyVideo[];
   trendingMovie: (page: number) => Promise<TypeMovieFetcher[]>;
