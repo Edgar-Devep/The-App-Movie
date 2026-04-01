@@ -45,7 +45,7 @@ export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }
     >
       <div
         className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-linear-to-b from-secondary via-primary-slow-800 rounded-2xl shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
         {!showTrailer && (
           <button
@@ -53,7 +53,7 @@ export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }
             className="btns_close_inf_trailer_modal"
             title="Cerrar"
           >
-            <IoClose className="btns_icon_close_modal" />
+            <IoClose className="btns_icon_close_modal cursor-pointer" />
           </button>
         )}
 
@@ -64,7 +64,7 @@ export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }
               className="btns_close_inf_trailer_modal"
               title="Cerrar trailer"
             >
-              <IoClose className="btns_icon_close_modal" />
+              <IoClose className="btns_icon_close_modal cursor-pointer" />
             </button>
             <div className="aspect-video w-full">
               <iframe
@@ -97,7 +97,7 @@ export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }
                 className="absolute inset-0 flex items-center justify-center group"
                 title="Ver trailer"
               >
-                <div className="bg-black/60 group-hover:bg-black/80 rounded-full p-6 transition-all transform group-hover:scale-110">
+                <div className="bg-black/60 group-hover:bg-black/80 rounded-full p-6 transition-all transform group-hover:scale-110 cursor-pointer">
                   <FaVideo className="text-white text-4xl md:text-6xl" />
                 </div>
               </button>
@@ -162,7 +162,7 @@ export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }
 
               <div className="flex space-x-5">
                 <button
-                  className="btns_add_video_modal"
+                  className="btns_add_video_modal cursor-pointer"
                   title="Agregar a favoritos"
                   onClick={() => {
                     likeMovie(movie);
@@ -175,9 +175,10 @@ export const MovieModal = ({ movie, isOpen, onClose, trailerKey, onPlayTrailer }
                     <IoIosAddCircleOutline className="text-2xl" />
                   )}
                 </button>
+                
                 {officialTrailer && (
                   <button
-                    className="btns_add_video_modal"
+                    className="btns_add_video_modal cursor-pointer"
                     onClick={handlePlayTrailer}
                     title="Ver trailer"
                   >
