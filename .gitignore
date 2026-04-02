@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # key
-Secret.ts
+.env
